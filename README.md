@@ -1,0 +1,1 @@
+node_modules .bin folder path instead of global install ;)
