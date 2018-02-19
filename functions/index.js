@@ -9,17 +9,13 @@ var _firebaseFunctions = require('firebase-functions');
 
 var functions = _interopRequireWildcard(_firebaseFunctions);
 
-var _react = require('react');
+var _preact = require('preact');
 
-var _react2 = _interopRequireDefault(_react);
-
-var _server = require('react-dom/server');
+var _preactRenderToString = require('preact-render-to-string');
 
 var _App = require('./src/containers/App');
 
 var _App2 = _interopRequireDefault(_App);
-
-var _api = require('./src/api/api');
 
 var _express = require('express');
 
@@ -37,14 +33,11 @@ var index = _fs2.default.readFileSync(__dirname + '/index.html', 'utf8'); // may
 var app = (0, _express2.default)();
 
 app.get('**', function (req, res) {
-  (0, _api.fetchList)().then(function (res) {
-    //resolve a promise
-    var html = (0, _server.renderToString)(_react2.default.createElement(_App2.default, { list: res }));
-    var final = index.replace('<!-- ::APP:: -->', html);
+  var html = (0, _preactRenderToString.render)((0, _preact.h)(_App2.default, null));
+  var final = index.replace('<!-- ::APP:: -->', html);
 
-    res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
-    res.send(final);
-  });
+  res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
+  res.send(final);
 });
 
 var ssrapp = exports.ssrapp = functions.https.onRequest(app);

@@ -1,12 +1,5 @@
-import React from 'react';
+import { h } from 'preact';
 
-const App = (props) => {
-    console.log(props);
-    props.list.map((item, i) => {
-        <li key={i}>{ item }</li>
-    });
-    
-    return  <ul>{ list }</ul>
-}
+const App = () => { <span> Hello from App. That's an ssr preact application.</span>}
 
 export default App;
